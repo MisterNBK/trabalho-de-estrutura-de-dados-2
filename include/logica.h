@@ -12,6 +12,7 @@ typedef struct Nohash{
 typedef struct Hash{
     Nohash **tabela;
     int tamanho;
+    int qtd;
 } Hash;
 
 typedef struct fila{
@@ -24,6 +25,8 @@ typedef struct{
     Hash *hash;
     Fila *Ini_fila;
     Fila *Fim_fila;
+    int tam_via;
+    int tam_ocupado;
 } Estacionamento;
 
 typedef enum{
@@ -36,12 +39,17 @@ typedef enum{
 
 typedef bool (*Estacionado)(const Veiculo *v, void *c);
 
-bool est_ini(Estacionamento *est, int tam);
+int conversorCM(double m);
+double conversorM(int cm);
+
+bool est_ini(Estacionamento *est, int tam, int hash);
 Status est_entrar(Estacionamento *est, int id, int tam);
-Status est_ver(Estacionamento *est, int id, int tam);
 bool est_busca(Estacionamento *est, int id, Veiculo *v);
 bool est_saida(Estacionamento *est, int id);
-void est_fila(Estacionamento *est, Estacionado f, void *c);
+bool est_ver_fila(Estacionamento *est, int id, int tam);
+bool est_ver_vaga(Estacionamento *est, int id, int tam);
+bool estacionar_fila(Estacionamento *est);
+void est_fila(Estacionamento *est, int *id, int *tam); 
 void est_exibir(Estacionamento *est);
 void est_del(Estacionamento *est);
 
