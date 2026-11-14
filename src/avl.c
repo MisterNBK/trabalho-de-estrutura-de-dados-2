@@ -30,6 +30,8 @@ int comparar(AVL *avl, Veiculo v1, Veiculo v2){
     else{
         if(v1.tam < v2.tam){ return -1; }
         else if(v1.tam > v2.tam) { return 1; }
+        else if(v1.pos > v2.pos){ return -1;}
+        else if(v1.pos > v2.pos){ return -1;}
         else { return 0; }
 
     }
@@ -158,11 +160,27 @@ void percorrer(No *no, resAVL e, void *c){
     percorrer(no->dir, e, c);
 }
 
-void exibir(No *no){
+void exibir_mapa(No *no){
     if(no == NULL){ return; }
-    exibir(no->esq);
-    printf("ID: %d, TAM: %d, POS: %d, STATUS: %d\n", no->veiculo.id, no->veiculo.tam, no->veiculo.pos, no->veiculo.status);
-    exibir(no->dir);
+    
+    exibir_mapa(no->esq);
+    
+    if(no->veiculo.status == 3){
+        printf("livre %.2f m\n ", (no->veiculo.tam / 100.0));
+    } else {
+        printf("id: %d %.2f m\n ", no->veiculo.id, (no->veiculo.tam / 100.0));
+    }
+    
+    exibir_mapa(no->dir);
+}
+
+void exibir_vagas(No *no){
+    if(no == NULL){ return; }
+    
+    exibir_vagas(no->esq);
+   printf("vaga: %.2f m\n ", (no->veiculo.tam / 100.0)); 
+   
+    exibir_vagas(no->dir);
 }
 
 void del(No *no){
@@ -202,32 +220,59 @@ No *avl_busca(AVL *avl, Veiculo v){
     return NULL;
 }
 
-No *avl_b_menor(AVL *avl){
-    return menor(avl->raiz);
-}
-
-No *avl_ant(AVL *avl){
-    No *no = avl->raiz;
-    if(no == NULL || no->esq == NULL){ return NULL; }
-    no = no->esq;
-    while(no->dir != NULL){
-        no = no->dir;
+No *avl_b_menor(AVL *avl, int tam){
+   No *atual = avl->raiz;
+   No *vagaL = NULL;
+    if(atual == NULL){ return NULL; }
+    while(atual != NULL){
+      if(atual->veiculo.tam >= tam){
+        vagaL = atual;
+        atual = atual->esq;
+      } else {
+        atual = atual->dir;
+      }
     }
-    return no;
+    return vagaL;
 }
 
-No *avl_suc(AVL *avl){
-    No *no = avl->raiz;
-    if(no == NULL || no->dir == NULL){ return NULL; }
-    no = no->dir;
-    while(no->esq != NULL){
-        no = no->esq;
+No *avl_ant(AVL *avl, int pos){
+   No *atual = avl->raiz;
+   No *ant = NULL;
+
+    if(atual == NULL){ return NULL; }
+    while(atual->dir != NULL){
+        if(atual->veiculo.pos < pos){
+            ant = atual;
+            atual = atual->dir;
+        } else {
+            atual = atual->esq;
+        }
     }
-    return no;
+    return ant;
 }
 
-void avl_exibir(AVL *avl){
-    exibir(avl->raiz);
+No *avl_suc(AVL *avl, int pos){
+    No *atual = avl->raiz;
+    No *suc = NULL;
+    if(atual == NULL || atual->dir == NULL){ return NULL; }
+    atual = atual->dir;
+    while(atual->esq != NULL){
+        if(atual->veiculo.pos > pos){
+            suc = atual;
+            atual = atual->esq;
+        }else{
+            atual = atual->dir;
+        }
+    }
+    return suc;
+}
+
+void avl_exibir_mp(AVL *avl){
+    exibir_mapa(avl->raiz);
+}
+
+void avl_exibir_vg(AVL *avl){
+    exibir_vagas(avl->raiz);
 }
 
 void avl_del(AVL *avl){
