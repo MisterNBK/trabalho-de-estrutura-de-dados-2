@@ -7,9 +7,7 @@
 int fator;
 
 int altura(No *no){
-    if(no == NULL){ 
-      return -1;
-    }
+    if(no == NULL){ return 0;}
     else{
       return no->altura;
     }
@@ -30,8 +28,8 @@ int comparar(AVL *avl, Veiculo v1, Veiculo v2){
     else{
         if(v1.tam < v2.tam){ return -1; }
         else if(v1.tam > v2.tam) { return 1; }
-        else if(v1.pos > v2.pos){ return -1;}
-        else if(v1.pos > v2.pos){ return -1;}
+        else if(v1.pos < v2.pos){ return -1;}
+        else if(v1.pos > v2.pos){ return 1;}
         else { return 0; }
 
     }
@@ -239,8 +237,7 @@ No *avl_ant(AVL *avl, int pos){
    No *atual = avl->raiz;
    No *ant = NULL;
 
-    if(atual == NULL){ return NULL; }
-    while(atual->dir != NULL){
+    while(atual != NULL){
         if(atual->veiculo.pos < pos){
             ant = atual;
             atual = atual->dir;
@@ -254,9 +251,7 @@ No *avl_ant(AVL *avl, int pos){
 No *avl_suc(AVL *avl, int pos){
     No *atual = avl->raiz;
     No *suc = NULL;
-    if(atual == NULL || atual->dir == NULL){ return NULL; }
-    atual = atual->dir;
-    while(atual->esq != NULL){
+    while(atual != NULL){
         if(atual->veiculo.pos > pos){
             suc = atual;
             atual = atual->esq;
