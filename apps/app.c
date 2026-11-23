@@ -40,7 +40,7 @@ int main() {
             printf("ID do veiculo: ");
             if (scanf("%d", &id) != 1){ break;}
             printf("tamanho em metros: ");
-            if (scanf("%lf", &m) != 1) break;
+            if (scanf("%lf", &m) != 1){ break;}
 
             st = est_entrar(&est, id, conversorCM(m));
             if (st == res_sucesso_estacionado) { printf("veiculo %d estacionado com sucesso\n", id);}
@@ -59,7 +59,7 @@ int main() {
                 printf("veiculo %d saiu da via\n", id);
                 while (est_ver_fila(&est, &id_fila, &tam_fila)){
                     char resp = 'n';
-                    printf("veiculo %d (%.2f m) na fila possui vaga compativel. estacionar? (s/n): ", id_fila, conversorM(tam_fila));
+                    printf("veiculo %d (%.2f m) na fila possui vaga compativel, estacionar? (s/n): ", id_fila, conversorM(tam_fila));
                     scanf(" %c", &resp);
                     if (resp == 's' || resp == 'S'){
                         if (estacionar_fila(&est)){
