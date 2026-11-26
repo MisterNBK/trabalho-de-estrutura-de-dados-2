@@ -91,7 +91,7 @@ No *ins(AVL *avl, No *no, Veiculo v, bool teste){
             return NULL;
         }
         no->veiculo = v;
-        no->altura = 0;
+        no->altura = 1;
         no->esq = NULL;
         no->dir = NULL;
         teste = true;
@@ -176,7 +176,7 @@ void exibir_vagas(No *no){
     if(no == NULL){ return; }
     
     exibir_vagas(no->esq);
-   printf("vaga: %.2f m\n ", (no->veiculo.tam / 100.0)); 
+   printf("vaga: %.2f m  alt: %d  fb=%d \n ", (no->veiculo.tam / 100.0),altura(no), fator_balanceamento(no)); 
    
     exibir_vagas(no->dir);
 }

@@ -119,12 +119,8 @@ Status est_entrar(Estacionamento *est, int id, int tam_cm) {
     Veiculo veiculo;
     No *vaga;
 
-    if (id <= 0 || buscar_hash(est, id) != NULL) {
-        return res_erro_id_duplicado;
-    }
-    if (tam_cm <= 0 || tam_cm > est->tam_via) {
-        return res_erro_taminv;
-    }
+    if (id <= 0 || buscar_hash(est, id) != NULL) { return res_erro_id_duplicado;}
+    if (tam_cm <= 0 || tam_cm > est->tam_via) { return res_erro_taminv;}
 
     veiculo.id = id;
     veiculo.tam = tam_cm;
